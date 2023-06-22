@@ -10,12 +10,20 @@ class MessageController extends Controller
 {
     public function index()
     {
-        $users = User::with('unread')
-                     ->where('id', '<>', Auth::id())
-                     ->select(['id', 'name', 'image', 'phone'])
-                     ->get(); 
+        if(request()->ajax())
+        {
+            $query = User::with('unread');
+            
+            if(!empty(request('query')))
+            {
+                $query->where('name', 'LIKE', '%'.request('query').'%')
+                      ->orWhere('email', 'LIKE', '%'.request('query').'%');
+            }
 
-        return $users;
+            $users = $query->select(['id', 'name', 'image', 'email'])->orderBy('name')->get(); 
+
+            return view('user.users', compact('users'));
+        }
     }
 
     public function store(Request $request)
@@ -28,7 +36,7 @@ class MessageController extends Controller
         $data['sender_id'] = Auth::id();
 
         $msg = Message::create($data);
-
+        
         event(new MessageEvent($msg->sender_id, $msg->receiver_id));
 
         return response()->json([
@@ -40,24 +48,25 @@ class MessageController extends Controller
 
     public function show($id)
     {
-        $messages = Message::with(['sender', 'receiver'])
-                            ->where([
-                                'sender_id' => $id,
-                                'receiver_id' => Auth::id()
-                            ])                   
-                            ->orWhere([
+        $messages = Message::with('sender')
+                           ->where(function($query) use($id) {
+                                $query->where([
+                                    'sender_id' => $id,
+                                    'receiver_id' => Auth::id()
+                                ]);
+                           })
+                           ->orWhere(function($query) use($id) {
+                                $query->where([
                                     'sender_id' => Auth::id(),
-                                    'receiver_id' => $id
-                                ])
-                            ->get();
+                                    'receiver_id' => $id,
+                                ]);
+                           })
+                          ->get();
 
         Message::where(['sender_id' => $id, 'receiver_id' => Auth::id()])
                 ->update(['is_read' => 1]);
 
-        return response()->json([
-            'status' => 'success',
-            'messages' => $messages,
-        ], 200);
+       return view('message.messages', compact('messages'));
             
     }
 

@@ -15,6 +15,7 @@
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}" >
 </head>
 <body>
     <div id="app">
@@ -76,5 +77,112 @@
             @yield('content')
         </main>
     </div>
+    <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            
+            getUsers();
+            let sender_id = "{{Auth::id()}}";
+            let receiver_id = "";
+            $(document).on('keyup', 'input.search-user', function(){
+                getUsers();
+            });
+
+            $(document).on('click', '.user', function(e){
+                receiver_id = $(this).attr('id');
+                let elem = $(this).find('.pending');
+                $.ajax({
+                    method: "GET",
+                    url: `message/${receiver_id}`,
+                    success: function(data)
+                    {
+                        $('div#messages').html(data);
+                        elem.remove();
+                        scrollToBottomFunc();
+
+                    }
+                });
+            });            
+            
+            $(document).on('keyup', 'input#message', function(e){
+                let message = $(this).val();
+                if(e.keyCode == 13 && message != '' && receiver_id != '')
+                {
+                    $(this).val('');
+
+                    $.ajax({
+                        method: "POST",
+                        url: `{{ route('message.store') }}`,
+                        data: {message,receiver_id},
+                        success: function(data)
+                        {
+                            // scrollToBottomFunc();
+                        }
+                    });
+                }
+
+            });
+
+            Pusher.logToConsole = true;
+
+            var pusher = new Pusher('216576b2ccf844a076f4', {
+                cluster: 'ap2'
+            });
+
+            var channel = pusher.subscribe('message-channel');
+            channel.bind('message-event', function(data) {
+                if(data.sender_id == sender_id)
+                {
+                    $('#'+data.receiver_id).click();
+                }               
+                if(data.receiver_id == sender_id)
+                {
+                    if(data.sender_id == receiver_id)
+                    {
+                        $('#'+data.sender_id).click();
+                    }
+                    else
+                    {
+                        let unread = parseInt($('#'+data.sender_id).find('.pending').text());
+                        if(unread)
+                        {
+                            $('#'+data.sender_id).find('.pending').text(unread + 1);
+                        }
+                        else{
+                            $('#'+data.sender_id).append(`<span class="pending">1</span>`);
+                        }
+                    }
+                }
+            });
+
+            function getUsers()
+            {
+                let query = $('input.search-user').val();
+                $.ajax({
+                    method: "GET",
+                    url: `message?query=${query}`,
+                    success: function(data)
+                    {
+                        $('div.user-list').html(data);
+                    }
+                });
+            }
+            
+        });
+
+        // make a function to scroll down auto
+        function scrollToBottomFunc() {
+            $('.message-wrapper').animate({
+                scrollTop: $('.message-wrapper').get(0).scrollHeight
+            }, 100);
+        }
+    </script>
+
 </body>
 </html>

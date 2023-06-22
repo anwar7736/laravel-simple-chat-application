@@ -1,23 +1,22 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}</div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-3 bg-dark text-white">
+                <div class="user-wrapper">
+                    <input type="text" placeholder="Search friend...." class="search-user">
+                    <div class="user-list">
 
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    {{ __('You are logged in!') }}
+                    </div>
                 </div>
             </div>
+
+            <div class="col-md-7 bg-dark text-white" id="messages">
+
+            </div>
+            <div class="col-md-1"></div>
         </div>
     </div>
-</div>
 @endsection
