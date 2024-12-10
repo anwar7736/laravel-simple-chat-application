@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('sender_id')->constrained('users')->onDelete('CASCADE');
             $table->foreignId('receiver_id')->constrained('users')->onDelete('CASCADE');
+            $table->foreignId('group_id')->nullable()->constrained()->onDelete('CASCADE');
             $table->text('message');
             $table->integer('is_read')->nullable()->default(0);
             $table->timestamps();
