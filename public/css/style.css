@@ -1,4 +1,4 @@
-body{
+body {
     background-color: green;
     color: white;
 }
@@ -32,8 +32,9 @@ li {
     list-style: none;
 }
 
-.user-wrapper, .message-wrapper {
-    border: 1px solid red;
+.user-wrapper,
+.message-wrapper {
+    /* border: 1px solid gray; */
     overflow-y: auto;
 }
 
@@ -49,7 +50,7 @@ li {
 
 .user:hover {
     background: #eeeeee;
-    color:black;
+    color: black;
 }
 
 .user:last-child {
@@ -98,19 +99,20 @@ li {
     margin-bottom: 0;
 }
 
-.received, .sent {
+.received,
+.sent {
     width: 45%;
     padding: 3px 10px;
     border-radius: 10px;
 }
 
 .received {
-    background: magenta;
-    color:black;
+    /* background: magenta; */
+    color: black;
 }
 
 .sent {
-    background: black;
+    /* background: black; */
     float: right;
     text-align: right;
 }
@@ -128,7 +130,8 @@ li {
     background: #eeeeee;
 }
 
-input[type=text], input[type=search] {
+input[type="text"],
+input[type="search"] {
     width: 100%;
     padding: 12px 20px;
     margin: 15px 0 0 0;
@@ -136,9 +139,10 @@ input[type=text], input[type=search] {
     border-radius: 4px;
     box-sizing: border-box;
     outline: none;
-    border: 1px solid  green;
+    border: 1px solid green;
 }
 
-input[type=text]:focus, input[type=search]:focus {
+input[type="text"]:focus,
+input[type="search"]:focus {
     border: 1px solid red;
 }

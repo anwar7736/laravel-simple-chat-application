@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 10, 2024 at 07:40 AM
+-- Generation Time: Jan 26, 2025 at 05:10 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -101,6 +101,22 @@ CREATE TABLE `messages` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `messages`
+--
+
+INSERT INTO `messages` (`id`, `sender_id`, `receiver_id`, `group_id`, `message`, `is_read`, `created_at`, `updated_at`) VALUES
+(1, 1, 2, NULL, 'Hi', 1, '2025-01-25 21:46:10', '2025-01-26 04:10:05'),
+(2, 2, 1, NULL, 'Hello', 1, '2025-01-25 21:46:10', '2025-01-26 04:10:12'),
+(3, 1, 2, NULL, 'ji', 1, '2025-01-25 21:51:56', '2025-01-26 04:10:05'),
+(4, 1, 2, NULL, 'Hi', 1, '2025-01-25 22:01:26', '2025-01-26 04:10:05'),
+(5, 2, 1, NULL, 'Anwar', 1, '2025-01-25 22:07:30', '2025-01-26 04:10:12'),
+(6, 1, 2, NULL, 'Ji test user', 1, '2025-01-25 22:07:38', '2025-01-26 04:10:05'),
+(7, 1, 2, NULL, 'ji', 1, '2025-01-26 04:09:32', '2025-01-26 04:10:05'),
+(8, 1, 2, NULL, 'hi', 1, '2025-01-26 04:09:45', '2025-01-26 04:10:05'),
+(9, 2, 1, NULL, 'hi', 1, '2025-01-26 04:10:01', '2025-01-26 04:10:12'),
+(10, 2, 1, NULL, 'hello', 1, '2025-01-26 04:10:05', '2025-01-26 04:10:12');
+
 -- --------------------------------------------------------
 
 --
@@ -189,6 +205,14 @@ CREATE TABLE `users` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `phone`, `image`, `remember_token`, `created_at`, `updated_at`) VALUES
+(1, 'Md Anwar Hossain', 'anwarhossain7736@gmail.com', NULL, '$2y$12$g76ZeZ7RTJoR0YIzrcQSAeP.7NlXXwX759QBOfY0g90p3767yNQha', NULL, NULL, NULL, '2024-12-10 02:27:40', '2024-12-10 02:27:40'),
+(2, 'Test User', 'test@gmail.com', NULL, '$2y$12$g76ZeZ7RTJoR0YIzrcQSAeP.7NlXXwX759QBOfY0g90p3767yNQha', NULL, NULL, NULL, '2024-12-10 02:27:40', '2024-12-10 02:27:40');
 
 --
 -- Indexes for dumped tables
@@ -301,7 +325,7 @@ ALTER TABLE `group_members`
 -- AUTO_INCREMENT for table `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -319,7 +343,7 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables

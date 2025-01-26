@@ -12,6 +12,22 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    protected $appends = ['profile_image_url'];
+
+    public function getProfileImageUrlAttribute()
+    {
+        $folder_name = 'users';
+        $file_name = $this->image;
+
+        $path = public_path("storage/images/" . $folder_name . "/" . $file_name);
+
+        if ($file_name && file_exists($path)) {
+            return asset("storage/images/" . $folder_name . "/" . $file_name);
+        }
+
+        return asset("assets/img/avatar.png");
+    }
+
     /**
      * The attributes that are mass assignable.
      *
