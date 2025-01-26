@@ -6,7 +6,7 @@
         gap: 10px;
         padding: 10px;
         max-height: 80vh;
-        overflow-y: auto;
+        /* overflow-y: auto; */
     }
 
     /* Chat Message Container */

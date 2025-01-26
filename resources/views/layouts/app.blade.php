@@ -178,9 +178,8 @@
 
         // make a function to scroll down auto
         function scrollToBottomFunc() {
-            $('.message-wrapper').animate({
-                scrollTop: $('.message-wrapper').get(0).scrollHeight
-            }, 100);
+            let wrapper = $('.message-wrapper');
+            wrapper.animate({ scrollTop: wrapper.prop("scrollHeight") }, 300);
         }
     </script>
 
